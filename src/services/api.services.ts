@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import * as apiClient from '../api/api.client';
 import { CurrencyResult } from '../interfaces/currency';
+import { RatesResult } from '../interfaces/rates';
 
 export const getRates = async () => {
   try {
@@ -11,9 +12,13 @@ export const getRates = async () => {
 
 export const getBaseRate = async (base: string) => {
   try {
-    const { data } = await apiClient.getBaseRate(base);
-    console.log('base rate', data);
-  } catch (error) {}
+    const { data }: AxiosResponse<RatesResult> = await apiClient.getBaseRate(
+      base
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getCurrencies = async () => {

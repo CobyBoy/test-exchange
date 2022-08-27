@@ -42,7 +42,8 @@ const ConverterForm = () => {
           style={{ fontSize: '34px', lineHeight: '39.88px' }}
         >
           Convert {amount} {fromCurrency.split('-')[1]} to{' '}
-          {toCurrency.split('-')[1]} - {fromCurrency.split('-')[0]} to{' '}
+          {toCurrency.split('-')[1]} -{' '}
+          {fromCurrency.split('-')[0]} to{' '}
           {toCurrency.split('-')[0]}
         </p>
       </h1>

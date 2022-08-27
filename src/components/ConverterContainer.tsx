@@ -9,7 +9,7 @@ export const ConverterContainer = () => {
       <Container
         style={{
           border: '2px solid green',
-          backgroundColor: 'red',
+          backgroundColor: 'gainsboro',
           marginTop: '-120px',
         }}
       >
