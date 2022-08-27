@@ -1,10 +1,9 @@
 import { Currency } from '../../../interfaces/currency';
-import { RatesResult } from '../../../interfaces/rates';
 interface Props {
   selectLabel: string;
   currency: string;
   currencyOptions: [string, Currency][];
-  onSelectChange: (e:React.ChangeEvent<HTMLSelectElement>) => void;
+  onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CurrencyInputs = ({
@@ -29,7 +28,7 @@ const CurrencyInputs = ({
             value={currency}
             onChange={onSelectChange}
           >
-            {currencyOptions.map(([key, { name, symbol }]) => (
+            {currencyOptions.map(([key, { name }]) => (
               <option
                 value={`${key} - ${name}`}
                 key={key}

@@ -1,52 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { RatesResult } from '../../interfaces/rates';
+import { useEffect, useState } from 'react';
 import * as apiService from '../../services/api.services';
 interface ResultsDisplay {
   amountToDisplay: string | number;
   fromCurrencyToDisplay: string;
-  toCurrencyToDisplay: string;
+    toCurrencyToDisplay: string;
+    setLastUpdateDate: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 const ResultsContainer = ({
   amountToDisplay,
   fromCurrencyToDisplay,
   toCurrencyToDisplay,
+  setLastUpdateDate,
 }: ResultsDisplay) => {
   const [result, setResult] = useState<number>();
-    const [inverseResult, setInverseResult] = useState<number>();
+  const [inverseResult, setInverseResult] = useState<number>();
+
+  const getResults = async (
+    currencyBase: string,
+    currencyToDisplay: string
+  ) => {
+    let conversionResult: number = 0;
+
+    let ratesResult = await apiService.getBaseRate(currencyBase.split('-')[0]);
+    setLastUpdateDate(ratesResult?.date);
+    let rate = ratesResult?.rates[currencyToDisplay.split('-')[0].trim()];
+    if (rate !== undefined) {
+      conversionResult = ~~amountToDisplay * rate;
+    }
+    return conversionResult;
+  };
 
   useEffect(() => {
     if (!fromCurrencyToDisplay || !toCurrencyToDisplay) {
       console.log('no cuurenc... returning');
       return;
     }
-    apiService
-      .getBaseRate(fromCurrencyToDisplay.split('-')[0])
-      .then((ratesResult) => {
-        let toRate =
-          ratesResult?.rates[toCurrencyToDisplay.split('-')[0].trim()];
-        if (toRate !== undefined) {
-          let conversionResult = ~~amountToDisplay * toRate;
-          setResult(conversionResult);
-          console.log(`resultado: ${conversionResult}`);
-        }
+    let result = getResults(fromCurrencyToDisplay, toCurrencyToDisplay);
+    result.then((res) => {
+      setResult(res);
+    });
 
-        console.log('r', ratesResult);
-      });
-
-    apiService
-      .getBaseRate(toCurrencyToDisplay.split('-')[0])
-      .then((ratesResult) => {
-        let toRate =
-          ratesResult?.rates[fromCurrencyToDisplay.split('-')[0].trim()];
-        if (toRate !== undefined) {
-          let conversionResult = ~~amountToDisplay * toRate;
-          setInverseResult(conversionResult);
-          console.log(`resultado: ${conversionResult}`);
-        }
-
-        console.log('r', ratesResult);
-      });
+    let inverseResult = getResults(toCurrencyToDisplay, fromCurrencyToDisplay);
+    inverseResult.then((res) => {
+      setInverseResult(res);
+    });
   }, [fromCurrencyToDisplay, amountToDisplay, toCurrencyToDisplay]);
   return (
     <>
@@ -64,10 +62,12 @@ const ResultsContainer = ({
         </div>
         <div>
           <p>
-            {amountToDisplay} {toCurrencyToDisplay.split('-')[0]} = {inverseResult?.toFixed(4)} {fromCurrencyToDisplay.split('-')[0]}
+            {amountToDisplay} {toCurrencyToDisplay.split('-')[0]} ={' '}
+            {inverseResult?.toFixed(4)} {fromCurrencyToDisplay.split('-')[0]}
           </p>
           <p>
-            {amountToDisplay} {fromCurrencyToDisplay.split('-')[0]} = {result?.toFixed(4)} {toCurrencyToDisplay.split('-')[0]}
+            {amountToDisplay} {fromCurrencyToDisplay.split('-')[0]} ={' '}
+            {result?.toFixed(4)} {toCurrencyToDisplay.split('-')[0]}
           </p>
         </div>
       </div>

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FROM_LABEL, INITIAL_AMOUNT, To_LABEL } from '../../constants/constants';
+import {
+  FROM_LABEL,
+  INITIAL_AMOUNT,
+  To_LABEL,
+} from '../../constants/constants';
 import CurrencyInputs from './CurrencyInputs/CurrencyInputs';
-import * as apiService from '../../services/api.services'
+import * as apiService from '../../services/api.services';
 import { Currency } from '../../interfaces/currency';
 import ResultsContainer from '../Results/ResultsContainer';
 import Stack from '@mui/material/Stack';
@@ -12,28 +16,34 @@ const ConverterForm = () => {
   const [amount, setAmount] = useState<string | number>(INITIAL_AMOUNT);
   const [fromCurrency, setFromCurrency] = useState<string>('');
   const [toCurrency, setToCurrency] = useState<string>('');
-  const [currencyOptions, setCurrencyOptions] = useState<[string, Currency][]>([]);
+  const [currencyOptions, setCurrencyOptions] = useState<[string, Currency][]>(
+    []
+  );
+  const[lastUpdateDate, setLastUpdateDate] = useState<string | undefined>();
 
   const setAmountValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    (Number(e.target.value) > 0)? setAmount(Number(e.target.value)) : setAmount(0);
+    Number(e.target.value) > 0
+      ? setAmount(Number(e.target.value))
+      : setAmount(0);
   };
 
-   useEffect(() => {
-     apiService.getCurrencies().then((currencies: any) => {
-       const fromArray = Object.entries(currencies)[1];
-       const toArray = Object.entries(currencies)[0];
-       const fromObject = { ...fromArray };
-       const fromString = `${fromObject[0]} - ${(fromObject[1] as Currency).name}`;
-       setFromCurrency(fromString);
+  useEffect(() => {
+    apiService.getCurrencies().then((currencies: any) => {
+      const fromArray = Object.entries(currencies)[1];
+      const toArray = Object.entries(currencies)[0];
+      const fromObject = { ...fromArray };
+      const fromString = `${fromObject[0]} - ${
+        (fromObject[1] as Currency).name
+      }`;
+      setFromCurrency(fromString);
 
-       const toObject = { ...toArray };
-       const toString = `${toObject[0]} - ${(toObject[1] as Currency).name}`;
-       setToCurrency(toString);
-       setCurrencyOptions(Object.entries(currencies));
-     });
-     //{ setCurrencyOptions(Object.entries(currencies)) }
-   }, []);
-  
+      const toObject = { ...toArray };
+      const toString = `${toObject[0]} - ${(toObject[1] as Currency).name}`;
+      setToCurrency(toString);
+      setCurrencyOptions(Object.entries(currencies));
+    });
+  }, []);
+
   return (
     <>
       <h1>
@@ -42,8 +52,7 @@ const ConverterForm = () => {
           style={{ fontSize: '34px', lineHeight: '39.88px' }}
         >
           Convert {amount} {fromCurrency.split('-')[1]} to{' '}
-          {toCurrency.split('-')[1]} -{' '}
-          {fromCurrency.split('-')[0]} to{' '}
+          {toCurrency.split('-')[1]} - {fromCurrency.split('-')[0]} to{' '}
           {toCurrency.split('-')[0]}
         </p>
       </h1>
@@ -88,10 +97,15 @@ const ConverterForm = () => {
             amountToDisplay={amount}
             fromCurrencyToDisplay={fromCurrency}
             toCurrencyToDisplay={toCurrency}
+            setLastUpdateDate={setLastUpdateDate}
           />
         </Stack>
       </Paper>
-      <ConversionInfo fromInfo={fromCurrency} toInfo={toCurrency} />
+      <ConversionInfo
+        fromInfo={fromCurrency}
+        toInfo={toCurrency}
+        lastUpdateDate={lastUpdateDate}
+      />
     </>
   );
 };
