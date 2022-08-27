@@ -54,7 +54,12 @@ const CurrencyInputs = ({
   return (
     <>
       <section>
-        <label htmlFor="selectCurrency">{selectLabel}</label>
+        <label
+          htmlFor="selectCurrency"
+          className="block text-sm font-medium text-gray-500 text-left"
+        >
+          {selectLabel}
+        </label>
         <div>
           <select
             name="currencySelect"
