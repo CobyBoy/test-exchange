@@ -11,6 +11,7 @@ import ResultsContainer from '../Results/ResultsContainer';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import ConversionInfo from '../ConversionInfo/ConversionInfo';
+import imgSvg from '../../assets/images/Trade.svg';
 
 const ConverterForm = () => {
   const [amount, setAmount] = useState<string | number>(INITIAL_AMOUNT);
@@ -19,12 +20,18 @@ const ConverterForm = () => {
   const [currencyOptions, setCurrencyOptions] = useState<[string, Currency][]>(
     []
   );
-  const[lastUpdateDate, setLastUpdateDate] = useState<string | undefined>();
+  const [lastUpdateDate, setLastUpdateDate] = useState<string | undefined>();
 
   const setAmountValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     Number(e.target.value) > 0
       ? setAmount(Number(e.target.value))
       : setAmount(0);
+  };
+
+  const revertFromAndTo = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+    console.log('revert from and to');
   };
 
   useEffect(() => {
@@ -75,15 +82,32 @@ const ConverterForm = () => {
                 className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none border-gray-300 text-right"
               />
             </div>
+            <div style={{ display: 'flex' }}>
+              <CurrencyInputs
+                selectLabel={FROM_LABEL}
+                currency={fromCurrency}
+                currencyOptions={currencyOptions}
+                onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setFromCurrency(e.target.value)
+                }
+              />
+              <div>
+                <img
+                  src={imgSvg}
+                  alt="trade-icon"
+                  style={{
+                    border: '#00AEEF solid 1px',
+                    borderRadius: '100%',
+                    padding: '8px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={(e) => {
+                    revertFromAndTo();
+                  }}
+                />
+              </div>
+            </div>
 
-            <CurrencyInputs
-              selectLabel={FROM_LABEL}
-              currency={fromCurrency}
-              currencyOptions={currencyOptions}
-              onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setFromCurrency(e.target.value)
-              }
-            />
             <CurrencyInputs
               selectLabel={To_LABEL}
               currency={toCurrency}

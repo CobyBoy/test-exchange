@@ -27,6 +27,7 @@ const CurrencyInputs = ({
             id="selectCurrency"
             value={currency}
             onChange={onSelectChange}
+            style={{width: '100%'}}
           >
             {currencyOptions.map(([key, { name }]) => (
               <option
