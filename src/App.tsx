@@ -1,13 +1,10 @@
 import './App.css';
-import { ConverterContainer } from './components/ConverterContainer';
+import ConverterForm from './components/ConverterForm/ConverterForm';
 
 const App = () => {
   return (
     <>
-      <div
-        className="bg"
-      ></div>
-      <ConverterContainer />
+      <ConverterForm />
     </>
   );
 };

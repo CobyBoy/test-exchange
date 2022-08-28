@@ -5,18 +5,11 @@
   box-sizing: border-box;
 }
 
-.bg {
+body{
   background-image: url('./assets/images/exch.png');
-  height: 50vh;
+  width: 100%;
+  max-height: 50vh;
+  position: absolute;
   background-repeat: no-repeat;
   background-size: cover;
-  left: 0px;
-  top: 0px;
-}
-
-header>p {
-  font-family: 'Work Sans';
-  font-size: 10px;
-  line-height: 39.88px;
-  font-weight: 700;
 }

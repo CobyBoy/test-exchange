@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as apiService from '../../services/api.services';
-interface ResultsDisplay {
-  amountToDisplay: string | number;
-  fromCurrencyToDisplay: string;
-    toCurrencyToDisplay: string;
-    setLastUpdateDate: React.Dispatch<React.SetStateAction<string | undefined>>
-}
+import { ResultsDisplay } from '../../interfaces/resultsDisplay';
+import './styles.css'
 
 const ResultsContainer = ({
   amountToDisplay,
@@ -33,7 +29,7 @@ const ResultsContainer = ({
 
   useEffect(() => {
     if (!fromCurrencyToDisplay || !toCurrencyToDisplay) {
-      console.log('no cuurenc... returning');
+      console.log('no cuurencies... returning');
       return;
     }
     let result = getResults(fromCurrencyToDisplay, toCurrencyToDisplay);
@@ -48,11 +44,8 @@ const ResultsContainer = ({
   }, [fromCurrencyToDisplay, amountToDisplay, toCurrencyToDisplay]);
   return (
     <>
-      <div style={{ width: '50%', border: '1px solid black' }}>
-        <h1 className="text-orange-300 text-2x1 mb-10 font-semibold">
-          ResultsContainer
-        </h1>
-        <div>
+      <div  className='resultsContainer'>
+        <div className="results">
           <p>
             {amountToDisplay} {fromCurrencyToDisplay.split('-')[1]} =
           </p>
@@ -60,7 +53,7 @@ const ResultsContainer = ({
             {result?.toFixed(4)} {toCurrencyToDisplay.split('-')[1]}
           </p>
         </div>
-        <div>
+        <div className="results">
           <p>
             {amountToDisplay} {toCurrencyToDisplay.split('-')[0]} ={' '}
             {inverseResult?.toFixed(4)} {fromCurrencyToDisplay.split('-')[0]}
@@ -69,6 +62,9 @@ const ResultsContainer = ({
             {amountToDisplay} {fromCurrencyToDisplay.split('-')[0]} ={' '}
             {result?.toFixed(4)} {toCurrencyToDisplay.split('-')[0]}
           </p>
+        </div>
+        <div className="results">
+          <p>We use the market rate. This is for information purpose only</p>
         </div>
       </div>
     </>

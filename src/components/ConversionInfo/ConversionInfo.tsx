@@ -1,9 +1,6 @@
 import React from 'react';
-interface Info {
-  fromInfo: string;
-  toInfo: string;
-  lastUpdateDate: string | undefined;
-}
+import { Info } from '../../interfaces/info';
+
 const ConversionInfo = ({ fromInfo, toInfo, lastUpdateDate }: Info) => {
   return (
     <>

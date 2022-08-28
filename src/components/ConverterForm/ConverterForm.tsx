@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import ConversionInfo from '../ConversionInfo/ConversionInfo';
 import imgSvg from '../../assets/images/Trade.svg';
+import './styles.css';
 
 const ConverterForm = () => {
   const [amount, setAmount] = useState<string | number>(INITIAL_AMOUNT);
@@ -28,7 +29,7 @@ const ConverterForm = () => {
       : setAmount(0);
   };
 
-  const revertFromAndTo = () => {
+  const swapFromAndTo = () => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
     console.log('revert from and to');
@@ -53,83 +54,99 @@ const ConverterForm = () => {
 
   return (
     <>
-      <h1>
-        <p
-          className="text-white text-2x1 mb-10 font-semibold"
-          style={{ fontSize: '34px', lineHeight: '39.88px' }}
+      <div id="convert-container">
+        <h1 className="convert-heading">
+          <p className="convert-heading mb-10">
+            Convert {amount} {fromCurrency.split('-')[1]} to{' '}
+            {toCurrency.split('-')[1]} - {fromCurrency.split('-')[0]} to{' '}
+            {toCurrency.split('-')[0]}
+          </p>
+        </h1>
+        <Paper
+          sx={{
+            p: 2,
+            width: '97%',
+            height: '522px',
+            margin: 'auto',
+            borderRadius: '8px',
+            border: '1px #E7EAF3',
+            boxShadow: '0px 0px 12px rgbs(140, 152, 164, 0.08)',
+          }}
         >
-          Convert {amount} {fromCurrency.split('-')[1]} to{' '}
-          {toCurrency.split('-')[1]} - {fromCurrency.split('-')[0]} to{' '}
-          {toCurrency.split('-')[0]}
-        </p>
-      </h1>
-      <Paper sx={{ p: 2 }}>
-        <Stack direction="row">
-          <div style={{ width: '50%', border: '1px solid black' }}>
-            <div className="col-span-3 sm:col-span-2">
-              <label
-                htmlFor="amount"
-                className="block text-sm font-medium text-gray-500 text-left"
-              >
-                Amount
-              </label>
-              <input
-                type="number"
-                name="amount"
-                placeholder="Amount"
-                value={amount}
-                onChange={(e) => setAmountValue(e)}
-                className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none border-gray-300 text-right"
-              />
-            </div>
-            <div style={{ display: 'flex' }}>
-              <CurrencyInputs
-                selectLabel={FROM_LABEL}
-                currency={fromCurrency}
-                currencyOptions={currencyOptions}
-                onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setFromCurrency(e.target.value)
-                }
-              />
-              <div>
-                <img
-                  src={imgSvg}
-                  alt="trade-icon"
-                  style={{
-                    border: '#00AEEF solid 1px',
-                    borderRadius: '100%',
-                    padding: '8px',
-                    cursor: 'pointer',
-                  }}
-                  onClick={(e) => {
-                    revertFromAndTo();
-                  }}
+          <Stack direction="row" style={{padding:'80px', height:'100%'}}>
+            <div style={{ width: '50%', border: '1px solid black' }}>
+              <div className="col-span-3 sm:col-span-2">
+                <label
+                  htmlFor="amount"
+                  className="block text-sm font-medium text-gray-500 text-left"
+                >
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  placeholder="Amount"
+                  value={amount}
+                  onChange={(e) => setAmountValue(e)}
                 />
               </div>
-            </div>
+              <div style={{ display: 'flex' }}>
+                <CurrencyInputs
+                  selectLabel={FROM_LABEL}
+                  currency={fromCurrency}
+                  currencyOptions={currencyOptions}
+                  onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    setFromCurrency(e.target.value)
+                  }
+                />
+                <div
+                  style={{
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    marginLeft: '10px',
+                  }}
+                >
+                  <img
+                    src={imgSvg}
+                    alt="trade-icon"
+                    style={{
+                      border: '#00AEEF solid 1px',
+                      borderRadius: '100%',
+                      padding: '10px',
+                      cursor: 'pointer',
+                      height: '2.5rem',
+                      width: '2.4rem',
+                    }}
+                    onClick={(e) => {
+                      swapFromAndTo();
+                    }}
+                  />
+                </div>
+              </div>
 
-            <CurrencyInputs
-              selectLabel={To_LABEL}
-              currency={toCurrency}
-              currencyOptions={currencyOptions}
-              onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setToCurrency(e.target.value)
-              }
+              <CurrencyInputs
+                selectLabel={To_LABEL}
+                currency={toCurrency}
+                currencyOptions={currencyOptions}
+                onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setToCurrency(e.target.value)
+                }
+              />
+            </div>
+            <ResultsContainer
+              amountToDisplay={amount}
+              fromCurrencyToDisplay={fromCurrency}
+              toCurrencyToDisplay={toCurrency}
+              setLastUpdateDate={setLastUpdateDate}
             />
-          </div>
-          <ResultsContainer
-            amountToDisplay={amount}
-            fromCurrencyToDisplay={fromCurrency}
-            toCurrencyToDisplay={toCurrency}
-            setLastUpdateDate={setLastUpdateDate}
-          />
-        </Stack>
-      </Paper>
-      <ConversionInfo
-        fromInfo={fromCurrency}
-        toInfo={toCurrency}
-        lastUpdateDate={lastUpdateDate}
-      />
+          </Stack>
+        </Paper>
+        <ConversionInfo
+          fromInfo={fromCurrency}
+          toInfo={toCurrency}
+          lastUpdateDate={lastUpdateDate}
+        />
+      </div>
     </>
   );
 };

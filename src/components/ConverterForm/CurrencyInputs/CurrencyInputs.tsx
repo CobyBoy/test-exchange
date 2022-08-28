@@ -1,17 +1,12 @@
-import { Currency } from '../../../interfaces/currency';
-interface Props {
-  selectLabel: string;
-  currency: string;
-  currencyOptions: [string, Currency][];
-  onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}
+import { currencyInput } from '../../../interfaces/currencyInput';
+import './styles.css'
 
 const CurrencyInputs = ({
   selectLabel,
   currency,
   currencyOptions,
   onSelectChange,
-}: Props) => {
+}: currencyInput) => {
   return (
     <>
       <section>
@@ -27,7 +22,7 @@ const CurrencyInputs = ({
             id="selectCurrency"
             value={currency}
             onChange={onSelectChange}
-            style={{width: '100%'}}
+            
           >
             {currencyOptions.map(([key, { name }]) => (
               <option

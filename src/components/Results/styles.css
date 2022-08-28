@@ -1,0 +1,16 @@
+.resultsContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border: 1px solid black;
+    text-align: left;
+}
+
+.results {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.results p {
+    padding: 8px;
+}
