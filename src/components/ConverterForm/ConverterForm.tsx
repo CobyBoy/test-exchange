@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import ConversionInfo from '../ConversionInfo/ConversionInfo';
 import imgSvg from '../../assets/images/Trade.svg';
 import './styles.css';
+import { currencyFormatter } from '../../shared/currencyFormatter';
 
 const ConverterForm = () => {
   const [amount, setAmount] = useState<string | number>(INITIAL_AMOUNT);
@@ -57,9 +58,10 @@ const ConverterForm = () => {
       <div id="convert-container">
         <h1 className="convert-heading">
           <p className="convert-heading mb-10">
-            Convert {amount} {fromCurrency.split('-')[1]} to{' '}
-            {toCurrency.split('-')[1]} - {fromCurrency.split('-')[0]} to{' '}
-            {toCurrency.split('-')[0]}
+            Convert {amount} {currencyFormatter(fromCurrency)[1]} to{' '}
+            {currencyFormatter(toCurrency)[1]} -{' '}
+            {currencyFormatter(fromCurrency)[0]} to{' '}
+            {currencyFormatter(toCurrency)[0]}
           </p>
         </h1>
         <Paper
@@ -73,9 +75,9 @@ const ConverterForm = () => {
             boxShadow: '0px 0px 12px rgbs(140, 152, 164, 0.08)',
           }}
         >
-          <Stack direction="row" style={{padding:'80px', height:'100%'}}>
-            <div style={{ width: '50%', border: '1px solid black' }}>
-              <div className="col-span-3 sm:col-span-2">
+          <Stack direction="row" style={{ padding: '80px', height: '100%' }}>
+            <div id='inputs-container'>
+              <div className="col-span-3 sm:col-span-2" style={{display: 'flex', flexDirection: 'column'}}>
                 <label
                   htmlFor="amount"
                   className="block text-sm font-medium text-gray-500 text-left"
@@ -101,8 +103,7 @@ const ConverterForm = () => {
                 />
                 <div
                   style={{
-                    justifyContent: 'center',
-                    alignSelf: 'center',
+                    paddingTop: '2.5%',
                     marginLeft: '10px',
                   }}
                 >
@@ -114,8 +115,6 @@ const ConverterForm = () => {
                       borderRadius: '100%',
                       padding: '10px',
                       cursor: 'pointer',
-                      height: '2.5rem',
-                      width: '2.4rem',
                     }}
                     onClick={(e) => {
                       swapFromAndTo();

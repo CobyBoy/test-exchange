@@ -18,6 +18,11 @@ h1 .convert-heading {
     color: #FFFFFF;
 }
 
+#inputs-container {
+    width: 50%;
+    border: 1px solid black
+}
+
 input {
     border: 1px solid #E0E0E0;
     text-align: right;
@@ -25,4 +30,8 @@ input {
     width: 100%;
     max-width: 380px;
     border-radius: 4px;
+}
+
+label {
+    margin-bottom: 0.8rem;
 }
