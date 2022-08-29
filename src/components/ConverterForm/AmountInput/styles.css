@@ -1,0 +1,13 @@
+#amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+@media screen and (max-width:844px) { 
+    #amount {
+        display: flex;
+        flex-direction:column ;
+    }
+}

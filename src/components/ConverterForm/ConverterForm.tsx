@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
-  FROM_LABEL,
   INITIAL_AMOUNT,
-  To_LABEL,
 } from '../../constants/constants';
-import CurrencyInputs from './CurrencyInputs/CurrencyInputs';
 import * as apiService from '../../services/api.services';
 import { Currency } from '../../interfaces/currency';
-import ResultsContainer from '../Results/ResultsContainer';
-import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import ConversionInfo from '../ConversionInfo/ConversionInfo';
-import imgSvg from '../../assets/images/Trade.svg';
 import './styles.css';
 import { currencyFormatter } from '../../shared/currencyFormatter';
+import InputContainer from './InputsContainer/InputContainer';
+import { Stack } from '@mui/material';
+import ResultsContainer from '../Results/ResultsContainer';
 
 const ConverterForm = () => {
   const [amount, setAmount] = useState<string | number>(INITIAL_AMOUNT);
@@ -24,16 +21,27 @@ const ConverterForm = () => {
   );
   const [lastUpdateDate, setLastUpdateDate] = useState<string | undefined>();
 
-  const setAmountValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const setAmountValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     Number(e.target.value) > 0
       ? setAmount(Number(e.target.value))
       : setAmount(0);
   };
 
-  const swapFromAndTo = () => {
+  const swapFromAndTo = (): void => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
-    console.log('revert from and to');
+    console.log('swap from and to');
+  };
+
+  const focusCursorAtEndOfInput = (
+    e: React.FocusEvent<HTMLInputElement, Element>
+  ): void => {
+    let end = e.target.value.length;
+    /**timeout makes it work with Chrome*/
+    setTimeout(() => {
+      e.target.setSelectionRange(end, end);
+      e.target.focus();
+    }, 0);
   };
 
   useEffect(() => {
@@ -56,80 +64,25 @@ const ConverterForm = () => {
   return (
     <>
       <div id="convert-container">
-        <h1 className="convert-heading">
-          <p className="convert-heading mb-10">
-            Convert {amount} {currencyFormatter(fromCurrency)[1]} to{' '}
-            {currencyFormatter(toCurrency)[1]} -{' '}
-            {currencyFormatter(fromCurrency)[0]} to{' '}
-            {currencyFormatter(toCurrency)[0]}
-          </p>
+        <h1 className="convert-heading mb-8">
+          Convert {amount} {currencyFormatter(fromCurrency)[1]} to{' '}
+          {currencyFormatter(toCurrency)[1]} -{' '}
+          {currencyFormatter(fromCurrency)[0]} to{' '}
+          {currencyFormatter(toCurrency)[0]}
         </h1>
-        <Paper
-          sx={{
-            p: 2,
-            width: '97%',
-            height: '522px',
-            margin: 'auto',
-            borderRadius: '8px',
-            border: '1px #E7EAF3',
-            boxShadow: '0px 0px 12px rgbs(140, 152, 164, 0.08)',
-          }}
-        >
-          <Stack direction="row" style={{ padding: '80px', height: '100%' }}>
-            <div id='inputs-container'>
-              <div className="col-span-3 sm:col-span-2" style={{display: 'flex', flexDirection: 'column'}}>
-                <label
-                  htmlFor="amount"
-                  className="block text-sm font-medium text-gray-500 text-left"
-                >
-                  Amount
-                </label>
-                <input
-                  type="number"
-                  name="amount"
-                  placeholder="Amount"
-                  value={amount}
-                  onChange={(e) => setAmountValue(e)}
-                />
-              </div>
-              <div style={{ display: 'flex' }}>
-                <CurrencyInputs
-                  selectLabel={FROM_LABEL}
-                  currency={fromCurrency}
-                  currencyOptions={currencyOptions}
-                  onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                    setFromCurrency(e.target.value)
-                  }
-                />
-                <div
-                  style={{
-                    paddingTop: '2.5%',
-                    marginLeft: '10px',
-                  }}
-                >
-                  <img
-                    src={imgSvg}
-                    alt="trade-icon"
-                    style={{
-                      border: '#00AEEF solid 1px',
-                      borderRadius: '100%',
-                      padding: '10px',
-                      cursor: 'pointer',
-                    }}
-                    onClick={(e) => {
-                      swapFromAndTo();
-                    }}
-                  />
-                </div>
-              </div>
-
-              <CurrencyInputs
-                selectLabel={To_LABEL}
-                currency={toCurrency}
+        <Paper id="convert-paper-container">
+          <Stack id="stack-container" direction="row">
+            <div id="inputs-container">
+              <InputContainer
+                amount={amount}
+                setAmountValue={setAmountValue}
+                focusCursorAtEndOfInput={focusCursorAtEndOfInput}
                 currencyOptions={currencyOptions}
-                onSelectChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setToCurrency(e.target.value)
-                }
+                fromCurrency={fromCurrency}
+                setFromCurrency={setFromCurrency}
+                setToCurrency={setToCurrency}
+                swapFromAndTo={swapFromAndTo}
+                toCurrency={toCurrency}
               />
             </div>
             <ResultsContainer

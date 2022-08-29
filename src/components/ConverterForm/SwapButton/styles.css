@@ -1,0 +1,24 @@
+ #swapButton-container {
+     margin: 7.6% 0 0 3%;
+ }
+
+ #swapButton-container img {
+     border: #00AEEF solid 1px;
+     border-radius: 100%;
+     padding: 10px;
+     cursor: pointer;
+ }
+
+ @media screen and (max-width:844px) {
+     #swapButton-container {
+        width: 100%;
+        margin: 12% 0 0 0;
+     }
+
+     #swapButton-container img {
+         border: #00AEEF solid 1.5px;
+         border-radius: 100%;
+         padding: 10px;
+         cursor: pointer;
+     }
+ }

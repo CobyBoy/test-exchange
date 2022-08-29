@@ -1,0 +1,10 @@
+#from-and-button-container {
+    display: flex;
+}
+
+@media screen and (max-width:844px) {
+    #from-and-button-container {
+        display: flex;
+        flex-direction: column;
+    }
+}
