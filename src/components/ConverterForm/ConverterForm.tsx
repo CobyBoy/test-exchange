@@ -5,10 +5,10 @@ import { Currency } from '../../interfaces/currency';
 import Paper from '@mui/material/Paper';
 import ConversionInfo from '../ConversionInfo/ConversionInfo';
 import './styles.css';
-import { currencyFormatter } from '../../shared/currencyFormatter';
 import InputContainer from './InputsContainer/InputContainer';
 import { Stack } from '@mui/material';
 import ResultsContainer from '../Results/ResultsContainer';
+import Title from './Title/Title';
 
 const ConverterForm = () => {
   const [amount, setAmount] = useState<string>(INITIAL_AMOUNT);
@@ -71,12 +71,11 @@ const ConverterForm = () => {
   return (
     <>
       <div id="convert-container">
-        <h1 className="convert-heading mb-8">
-          Convert {amount} {currencyFormatter(fromCurrency)[1]} to{' '}
-          {currencyFormatter(toCurrency)[1]} -{' '}
-          {currencyFormatter(fromCurrency)[0]} to{' '}
-          {currencyFormatter(toCurrency)[0]}
-        </h1>
+        <Title
+          amount={amount}
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+        />
         <Paper id="convert-paper-container">
           <Stack id="stack-container" direction="row">
             <div id="inputs-container">
