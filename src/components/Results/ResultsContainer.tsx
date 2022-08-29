@@ -21,15 +21,23 @@ const ResultsContainer = ({
     let conversionResult: number = 0;
 
     let ratesResult = await apiService.getBaseRate(currencyBase.split('-')[0]);
+    console.log('api', ratesResult);
     setLastUpdateDate(ratesResult?.date);
     let rate = ratesResult?.rates[currencyToDisplay.split('-')[0].trim()];
     if (rate !== undefined) {
-      conversionResult = ~~amountToDisplay * rate;
+      amountToDisplay = Number(amountToDisplay);
+      conversionResult = amountToDisplay * rate;
     }
     return conversionResult;
   };
 
   useEffect(() => {
+    if (!amountToDisplay) {
+      setResult(0);
+      setInverseResult(0);
+      return
+    }
+    
     if (!fromCurrencyToDisplay || !toCurrencyToDisplay) {
       console.log('no cuurencies... returning');
       return;

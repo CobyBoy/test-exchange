@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  INITIAL_AMOUNT,
-} from '../../constants/constants';
+import { INITIAL_AMOUNT } from '../../constants/constants';
 import * as apiService from '../../services/api.services';
 import { Currency } from '../../interfaces/currency';
 import Paper from '@mui/material/Paper';
@@ -13,7 +11,7 @@ import { Stack } from '@mui/material';
 import ResultsContainer from '../Results/ResultsContainer';
 
 const ConverterForm = () => {
-  const [amount, setAmount] = useState<string | number>(INITIAL_AMOUNT);
+  const [amount, setAmount] = useState<string>(INITIAL_AMOUNT);
   const [fromCurrency, setFromCurrency] = useState<string>('');
   const [toCurrency, setToCurrency] = useState<string>('');
   const [currencyOptions, setCurrencyOptions] = useState<[string, Currency][]>(
@@ -22,15 +20,24 @@ const ConverterForm = () => {
   const [lastUpdateDate, setLastUpdateDate] = useState<string | undefined>();
 
   const setAmountValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    Number(e.target.value) > 0
-      ? setAmount(Number(e.target.value))
-      : setAmount(0);
-  };
+    console.log('stat', e.target.value);
+    const onlyNumbers = /^\d+\.?\d*$/g;
+    const oneZero = /^[0][1-9]/g; //01
+    const onlyTwoZeroes = /^[0]+[^\.]/g; //001
+    const theresOnlyNumbers = onlyNumbers.test(e.target.value);
+    const oneLeadingZero = oneZero.test(e.target.value);
+    const tooManyLeadingZeros = onlyTwoZeroes.test(e.target.value);
+    
+
+    if (tooManyLeadingZeros) return;
+    if (oneLeadingZero) return;
+    if (!e.target.value) { setAmount(''); return; }
+    if (theresOnlyNumbers) { setAmount(e.target.value); return; }
+  };;
 
   const swapFromAndTo = (): void => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
-    console.log('swap from and to');
   };
 
   const focusCursorAtEndOfInput = (
