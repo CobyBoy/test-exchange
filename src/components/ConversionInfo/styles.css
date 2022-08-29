@@ -1,0 +1,13 @@
+footer {
+   color: #757575;
+   font-size: 12px;
+   line-height: 18px;
+   margin: 2% 0 0 0;
+   padding-left: 1%;
+}
+
+@media screen and (max-width:844px) {
+   footer {
+      display: none;
+   }
+}

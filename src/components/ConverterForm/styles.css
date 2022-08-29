@@ -1,26 +1,33 @@
 #convert-container {
-    border: 1px solid black;
-    margin-top: 120px;
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
+    margin: auto;
+    width: 97%;
 }
 
-h1 .convert-heading {
+.convert-heading {
     display: flex;
     width: 100%;
     height: 40px;
     justify-content: center;
+    margin: 8% 0 4% 0;
     align-items: center;
     letter-spacing: -0.02em;
-    font-size: 34px;
+    font-size: 2.12rem;
     font-weight: 700;
-    line-height: 40px;
+    line-height: 2.5rem;
     color: #FFFFFF;
+    font-family: 'Work Sans'
+}
+
+#stack-container {
+    padding: 80px;
+    height: 100%;
 }
 
 #inputs-container {
     width: 50%;
-    border: 1px solid black
 }
 
 input {
@@ -34,4 +41,46 @@ input {
 
 label {
     margin-bottom: 0.8rem;
+}
+
+@media screen and (max-width:844px) {
+
+    .convert-heading {
+        align-self: center;
+        color: #FFFFFF;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 1.5rem;
+        height: 11%;
+        line-height: 30px;
+        margin-top: 3%;
+        position: absolute;
+        top: 54px;
+        left: 34px;
+        width: 83%;
+    }
+
+    #convert-paper-container {
+        box-sizing: border-box;
+        border-radius: 8px;
+        border: 1px solid rgba(231, 234, 243, 0.7);
+        box-shadow: 0px 0px 12px rgba(140, 152, 164, 0.08);
+        height: 100%;
+        margin: auto;
+        margin-top: 40%;
+        padding: 18px;
+        width: 93%;
+        /*358px*/
+    }
+
+    #stack-container {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin-top: 7%;
+    }
+
+    #inputs-container {
+        width: 100%;
+    }
 }

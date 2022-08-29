@@ -22,12 +22,13 @@ const CurrencyInputs = ({
             id="selectCurrency"
             value={currency}
             onChange={onSelectChange}
-            
+            className="text-base"
           >
             {currencyOptions.map(([key, { name }]) => (
               <option
                 value={`${key} - ${name}`}
                 key={key}
+                className="text-base"
               >{`${key} - ${name}`}</option>
             ))}
           </select>

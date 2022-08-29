@@ -3,6 +3,10 @@ section {
     max-width: 380px;
 }
 
+label {
+    font-size: 14px;
+    margin-top: 1.8rem;
+}
 #selectCurrency {
     height: 2.5rem;
     width: 100%;
